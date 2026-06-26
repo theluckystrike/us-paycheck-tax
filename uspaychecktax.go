@@ -1,0 +1,26 @@
+package uspaychecktax
+
+// 2025 US federal income tax (single filer) + FICA. Estimates only.
+var singleBrackets = []struct{ upTo, rate float64 }{
+	{11925, 0.10}, {48475, 0.12}, {103350, 0.22}, {197300, 0.24},
+	{250525, 0.32}, {626350, 0.35}, {1e18, 0.37},
+}
+
+func FederalIncomeTax(taxable float64) float64 {
+	if taxable <= 0 { return 0 }
+	tax, prev := 0.0, 0.0
+	for _, b := range singleBrackets {
+		if taxable <= prev { break }
+		top := taxable
+		if top > b.upTo { top = b.upTo }
+		tax += (top - prev) * b.rate
+		prev = b.upTo
+	}
+	return tax
+}
+
+func Fica(gross float64) float64 {
+	ss := 0.062
+	if gross > 176100 { ss = 0.062 * 176100 } else { ss = 0.062 * gross }
+	return ss + 0.0145*gross
+}
