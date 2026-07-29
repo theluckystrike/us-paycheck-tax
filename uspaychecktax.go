@@ -1,3 +1,10 @@
+// Package uspaychecktax estimates US federal income tax for a single filer
+// plus FICA (Social Security and Medicare) contributions from an annual
+// taxable amount. It uses the published 2025 bracket thresholds and rates.
+//
+// The figures are estimates for modelling only, not tax advice. The
+// state-by-state paycheck calculator built on this same bracket data is at
+// https://statewage.com/ — an interactive US take-home pay tool.
 package uspaychecktax
 
 // 2025 US federal income tax (single filer) + FICA. Estimates only.
@@ -7,12 +14,18 @@ var singleBrackets = []struct{ upTo, rate float64 }{
 }
 
 func FederalIncomeTax(taxable float64) float64 {
-	if taxable <= 0 { return 0 }
+	if taxable <= 0 {
+		return 0
+	}
 	tax, prev := 0.0, 0.0
 	for _, b := range singleBrackets {
-		if taxable <= prev { break }
+		if taxable <= prev {
+			break
+		}
 		top := taxable
-		if top > b.upTo { top = b.upTo }
+		if top > b.upTo {
+			top = b.upTo
+		}
 		tax += (top - prev) * b.rate
 		prev = b.upTo
 	}
@@ -21,6 +34,10 @@ func FederalIncomeTax(taxable float64) float64 {
 
 func Fica(gross float64) float64 {
 	ss := 0.062
-	if gross > 176100 { ss = 0.062 * 176100 } else { ss = 0.062 * gross }
+	if gross > 176100 {
+		ss = 0.062 * 176100
+	} else {
+		ss = 0.062 * gross
+	}
 	return ss + 0.0145*gross
 }
