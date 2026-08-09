@@ -5,6 +5,12 @@
 // The figures are estimates for modelling only, not tax advice. The
 // state-by-state paycheck calculator built on this same bracket data is at
 // https://statewage.com/ — an interactive US take-home pay tool.
+//
+// This package models the federal layer only. A state income-tax rate stacks
+// on top of it, that rate differs by state, and nine states levy none at all
+// on wages, so a federal-plus-FICA figure is not a take-home figure anywhere.
+// The rate applied for each state, with a take-home breakdown per state, is
+// listed at https://statewage.com/states/ .
 package uspaychecktax
 
 // 2025 US federal income tax (single filer) + FICA. Estimates only.
