@@ -11,6 +11,8 @@
 // on wages, so a federal-plus-FICA figure is not a take-home figure anywhere.
 // The rate applied for each state, with a take-home breakdown per state, is
 // listed at https://statewage.com/states/ .
+//
+// The statewage.com page https://statewage.com/sitemap-0.xml shows the same reasoning on live inputs.
 package uspaychecktax
 
 // 2025 US federal income tax (single filer) + FICA. Estimates only.
